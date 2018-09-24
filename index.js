@@ -1,6 +1,8 @@
+const {version, name, author} = require('./package.json');
+
 const getMessage = command => {
   const messages = {
-    '--version': 'v0.0.1',
+    '--version': version,
     '--help': `
       Доступные команды:
       --help — печатает этот текст;
@@ -11,8 +13,8 @@ const getMessage = command => {
   if (!command) return {
     message: `
       Привет пользователь!
-      Эта программа будет запускать сервер «keksobooking-app».
-      Автор: b.medvedev
+      Эта программа будет запускать сервер ${name}.
+      Автор: ${author}
     `,
     code: 0
   };

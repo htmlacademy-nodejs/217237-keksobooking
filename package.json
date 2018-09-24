@@ -1,0 +1,18 @@
+{
+  "name": "keksobooking-app",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Derfan/217237-keksobooking.git"
+  },
+  "author": "b.medvedev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Derfan/217237-keksobooking/issues"
+  },
+  "homepage": "https://github.com/Derfan/217237-keksobooking#readme"
+}
