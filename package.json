@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/Derfan/217237-keksobooking/issues"
   },
-  "homepage": "https://github.com/Derfan/217237-keksobooking#readme"
+  "homepage": "https://github.com/Derfan/217237-keksobooking#readme",
+  "dependencies": {
+    "colors": "^1.3.2"
+  }
 }

@@ -1,12 +1,15 @@
+const colors = require(`colors`);
 const {version, name, author} = require('./package.json');
 
+const coloring = (string, color = 'grey') => colors[color](string);
+const coloredVersion = `${coloring(version.split('.')[0], 'red')}.${coloring(version.split('.')[1], 'green')}.${coloring(version.split('.')[2], 'blue')}`;
 const getMessage = command => {
   const messages = {
-    '--version': version,
+    '--version': coloredVersion,
     '--help': `
       Доступные команды:
-      --help — печатает этот текст;
-      --version — печатает версию приложения;
+      ${coloring('--help')}    — ${coloring('печатает этот текст', 'green')};
+      ${coloring('--version')} — ${coloring('печатает версию приложения', 'green')};
     `
   };
 
