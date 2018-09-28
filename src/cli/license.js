@@ -1,8 +1,7 @@
 const {license} = require(`../../package.json`);
 
 module.exports = {
-  name: `license`,
-  command: `--license`,
+  name: `--license`,
   description: `Shows program license`,
   execute() {
     return license;

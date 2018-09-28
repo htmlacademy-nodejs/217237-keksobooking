@@ -1,8 +1,7 @@
 const {author} = require(`../../package.json`);
 
 module.exports = {
-  name: `author`,
-  command: `--author`,
+  name: `--author`,
   description: `Shows program author`,
   execute() {
     return author;

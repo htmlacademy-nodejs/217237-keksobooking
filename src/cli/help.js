@@ -7,10 +7,9 @@ const description = require(`./description`);
 
 const commands = [version, name, author, license, description,
   {
-    name: `help`,
-    command: `--help`,
+    name: `--help`,
     description: `Shows program help`,
-    execute: () => commands.reduce((prev, next) => `${prev}${coloring(next.command)} - ${coloring(next.description, `green`)}\n`, ``)
+    execute: () => commands.reduce((prev, next) => `${prev}${coloring(next.name)} - ${coloring(next.description, `green`)}\n`, ``)
   }
 ];
 

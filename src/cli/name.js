@@ -1,8 +1,7 @@
 const {name} = require(`../../package.json`);
 
 module.exports = {
-  name: `name`,
-  command: `--name`,
+  name: `--name`,
   description: `Shows program name`,
   execute() {
     return name;
