@@ -5,13 +5,11 @@ const author = require(`./author`);
 const license = require(`./license`);
 const description = require(`./description`);
 
-const commands = [version, name, author, license, description,
-  {
-    name: `--help`,
-    description: `Shows program help`,
-    execute: () => commands.reduce((prev, next) => `${prev}${coloring(next.name)} - ${coloring(next.description, `green`)}\n`, `\n`)
-  }
-];
+const commands = [{
+  name: `--help`,
+  description: `Shows program help`,
+  execute: () => commands.reduce((string, command) => `${string}${coloring(command.name)} - ${coloring(command.description, `green`)}\n`, `\n`)
+}, version, name, author, license, description];
 
 module.exports = {
   commands

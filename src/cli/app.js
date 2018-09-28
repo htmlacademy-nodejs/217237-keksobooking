@@ -11,7 +11,7 @@ input.addListener(`data`, (d) => {
   if (userCommand && command) {
     console.log(command.execute());
   } else if (userCommand && !command) {
-    console.error(`Неизвестная команда ${command}`);
+    console.error(`Неизвестная команда ${userCommand}`);
   }
 });
 
