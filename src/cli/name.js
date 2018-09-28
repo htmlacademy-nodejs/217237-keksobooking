@@ -1,9 +1,10 @@
 const {name} = require(`../../package.json`);
+const {coloring} = require(`../utils`);
 
 module.exports = {
-  name: `name`,
+  name: `--name`,
   description: `Shows program name`,
   execute() {
-    return name
+    return coloring(name, `green`);
   }
 };
