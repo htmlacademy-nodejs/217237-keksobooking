@@ -4,6 +4,6 @@ module.exports = {
   name: `description`,
   description: `Shows program description`,
   execute() {
-    return description
+    return description;
   }
 };

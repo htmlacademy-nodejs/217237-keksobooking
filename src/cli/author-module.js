@@ -4,6 +4,6 @@ module.exports = {
   name: `author`,
   description: `Shows program author`,
   execute() {
-    return author
+    return author;
   }
 };
