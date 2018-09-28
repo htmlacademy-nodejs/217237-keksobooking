@@ -1,19 +1,22 @@
-const {coloring, findObjectInArray} = require(`../utils`);
-const {commands: appCommands} = require(`./help`);
+const {findCommandByName, run} = require(`./app`);
 
-const findCommandByName = (command) => findObjectInArray(appCommands, `name`, command);
+const appName = findCommandByName(`--name`).execute();
+const appVersion = findCommandByName(`--version`).execute();
+const appHelp = findCommandByName(`--help`).execute();
 
 module.exports = {
   name: `CLI`,
-  description: `Command Line Interface of ${coloring(findCommandByName(`--name`).execute(), `green`)}`,
+  description: `Command Line Interface of ${appName}`,
   run: (command) => {
     if (!command) {
-      console.log(`Что писать при отсутствии аргументов, в ТЗ указано не было, по этому здесь эта строка.`);
+      console.log(`Добро пожаловать в приложение "${appName}" ${appVersion}\nСписок доступных команд:${appHelp}`);
+      run();
     } else if (findCommandByName(command)) {
       console.log(findCommandByName(command).execute());
+      process.exit(0);
     } else {
       console.error(`Неизвестная команда ${command}`);
-      console.log(`Список доступных команд:\n${findCommandByName(`--help`).execute()}`);
+      console.log(`Список доступных команд:\n${appHelp}`);
       process.exit(1);
     }
   }
