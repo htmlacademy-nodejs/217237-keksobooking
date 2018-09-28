@@ -1,30 +1,22 @@
-const {coloring} = require(`../utils`);
-const version = require(`./version-module`);
-const name = require(`./name-module`);
-const author = require(`./author-module`);
-const license = require(`./license-module`);
-const description = require(`./description-module`);
+const {coloring, findObjectInArray} = require(`../utils`);
+const {commands: appCommands} = require(`./help`);
 
-const appCommands = {version, name, author, license, description};
+const findCommandByCommand = (command) => findObjectInArray(appCommands, `command`, command);
+const findCommandByName = (command) => findObjectInArray(appCommands, `name`, command);
 
 module.exports = {
   name: `CLI`,
-  description: `Command Line Interface of ${coloring(name.name, `green`)}`,
-  run(command) {
-    if (command && appCommands.hasOwnProperty(command)) {
-      console.log(appCommands[command].execute());
-    } else if (!command) {
+  description: `Command Line Interface of ${coloring(findObjectInArray(appCommands, `name`, `name`).execute(), `green`)}`,
+  run: (command) => {
+    if (!command) {
       console.log(`Что писать при отсутствии аргументов, в ТЗ указано не было, по этому здесь эта строка.`);
+    } else if (findCommandByCommand(command)) {
+      console.log(findCommandByCommand(command).execute());
+    } else if (findCommandByName(command)) {
+      console.log(findCommandByName(command).execute());
     } else {
       console.error(`Неизвестная команда ${command}`);
-      console.log(`
-    Список доступных команд:
-    ${coloring(version.name)}     - ${coloring(version.description, `green`)}
-    ${coloring(name.name)}        - ${coloring(name.description, `green`)}
-    ${coloring(author.name)}      - ${coloring(author.description, `green`)}
-    ${coloring(license.name)}     - ${coloring(license.description, `green`)}
-    ${coloring(description.name)} - ${coloring(description.description, `green`)}
-  `);
+      console.log(`Список доступных команд:\n${findObjectInArray(appCommands, `name`, `help`).execute()}`);
       process.exit(1);
     }
   }
