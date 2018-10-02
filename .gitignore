@@ -11,7 +11,7 @@ Thumbs.db
 *.log
 npm-debug.log*
 node_modules/
-mock/*.mock.json
+src/mock/*.mock.json
 
 # Папка с собранными файлами проекта
 build/

@@ -4,7 +4,7 @@ const {getRandomInteger, coloring} = require(`../utils`);
 const {generateEntity} = require(`../generator`);
 const write = promisify(fs.writeFile);
 
-const DEFAULT_PATH = `${process.cwd()}/mock/ads.mock.json`;
+const DEFAULT_PATH = `${process.cwd()}/src/mock/ads.mock.json`;
 const RANDOM_DATA = generateEntity(getRandomInteger(1, 10));
 const DEFAULT_OPTIONS = {encoding: `utf-8`, mode: 0o644};
 

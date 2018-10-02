@@ -1,6 +1,6 @@
-const Ad = require(`../models/Ad`);
-const {getRandomInteger} = require(`../src/utils`);
-const {type, time, features, titles, photos} = require(`../mock/messages`);
+const Ad = require(`./models/ad`);
+const {getRandomInteger, generateRandomArray} = require(`../src/utils`);
+const {type, time, features, titles, photos} = require(`./mock/messages`);
 
 const getParams = () => ({
   avatar: `https://robohash.org/${getRandomInteger(0, 100)}`,
@@ -13,7 +13,7 @@ const getParams = () => ({
   guests: getRandomInteger(1, 12),
   checkin: time[getRandomInteger(0, time.length - 1)],
   checkout: time[getRandomInteger(0, time.length - 1)],
-  features: features.slice(getRandomInteger(-features.length + 2, features.length - 2)),
+  features: generateRandomArray(features),
   description: ``,
   photos: photos.sort(() => getRandomInteger(-1, 1)),
   date: Date.now() - getRandomInteger(0, 604800000)
