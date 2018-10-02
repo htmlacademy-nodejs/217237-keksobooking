@@ -3,6 +3,7 @@ const fs = require(`fs`);
 const {promisify} = require(`util`);
 const generate = require(`../src/cli/generate`);
 const {generateEntity} = require(`../src/generator`);
+const Ad = require(`../src/models/ad`);
 const messages = require(`../src/mock/messages`);
 
 const access = promisify(fs.access);
@@ -55,7 +56,26 @@ describe(`Entity generator`, () => {
 });
 
 describe(`Entity data`, () => {
-  const [{author, offer, location, date}] = generateEntity();
+  const [data] = generateEntity();
+  const {author, offer, location, date} = data;
+  const testEntity = {
+    author: {avatar: null},
+    offer: {
+      title: null,
+      address: null,
+      price: null,
+      type: null,
+      rooms: null,
+      guests: null,
+      checkin: null,
+      checkout: null,
+      features: null,
+      description: null,
+      photos: null
+    },
+    location: {x: null, y: null},
+    date: null
+  };
 
   it(`should guests correct`, () => assert.ok(typeof author.avatar === `string`));
 
@@ -90,4 +110,6 @@ describe(`Entity data`, () => {
   });
 
   it(`should date correct`, () => assert.ok(Date.now() >= date));
+
+  it(`should model correct`, () => assert.notDeepEqual(testEntity, new Ad(data).entity));
 });
