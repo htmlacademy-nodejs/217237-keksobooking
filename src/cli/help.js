@@ -12,6 +12,4 @@ const commands = [{
   execute: () => commands.reduce((string, command) => `${string}${coloring(command.name)} - ${coloring(command.description, `green`)}\n`, `\n`)
 }, version, name, author, license, description, generate];
 
-module.exports = {
-  commands
-};
+module.exports = commands;
