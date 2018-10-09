@@ -4,109 +4,74 @@ const {promisify} = require(`util`);
 const {generateEntity} = require(`../generator`);
 const generate = require(`./generate`);
 
-const createInterface = () => readline.createInterface(process.stdin, process.stdout);
-const setPrompt = (rl, prompt) => {
-  rl.setPrompt(`${prompt}\n`);
-
-  rl.prompt();
-};
 const access = promisify(fs.access);
-let data = [];
-let path = ``;
 
-const rewriteFile = () => {
-  const rl = createInterface();
+const rl = readline.createInterface(process.stdin, process.stdout);
+let data;
+let path;
 
-  setPrompt(rl, `Файл уже существует, перезаписать?(y/n)`);
-
-  rl.on(`line`, async (line) => {
-    switch (line.trim().toLowerCase()) {
-      case (`y`): {
-        await generate.execute(path, data);
-        rl.close();
-        break;
-      }
-      case (`n`): {
-        setPrompt(rl, `Спасибо за ответ, до свидания!`);
-        break;
-      }
-      default: {
-        console.log(`Неизвестная команда: ${line.trim()}`);
-        break;
-      }
+const run = () => rl.question(`Давайте сгенерируем тестовые данные?(y/n) `, (answer) => {
+  switch (answer.trim().toLowerCase()) {
+    case (`y`): {
+      return getData();
     }
-  }).on(`close`, () => {
-    setPrompt(rl, `Файл успешно перезаписан!`);
-    process.exit(0);
-  });
-};
-
-const saveData = () => {
-  const rl = createInterface();
-
-  setPrompt(rl, `Укажите путь к файлу:`);
-
-  rl.on(`line`, async (line) => {
-    try {
-      await access(line);
-      path = line;
-      rl.close();
-    } catch (e) {
-      if (e.code === `ENOENT`) {
-        await generate.execute(line, data);
-        setPrompt(rl, `Файл успешно сохранен!`);
-        process.exit(0);
-      } else {
-        setPrompt(rl, `Не корректный путь`);
-      }
+    case (`n`): {
+      console.log(`Спасибо за ответ, до свидания!`);
+      process.exit(0);
+      return answer;
     }
-  }).on(`close`, () => {
-    rewriteFile();
-  });
-};
+    default: {
+      console.log(`Неизвестная команда: ${answer.trim()}`);
+      return run();
+    }
+  }
+});
 
-const generateEntities = () => {
-  const rl = createInterface();
+const getData = () => rl.question(`Укажите количество сущностей: `, (answer) => {
+  if (Number.parseInt(answer, 10) && Number.parseInt(answer, 10) > 0) {
+    data = generateEntity(answer);
+    return getPath();
+  } else {
+    console.log(`Значение не корректное, попробуйде снова!`);
+    return getData();
+  }
+});
 
-  setPrompt(rl, `Укажите количество сущностей:`);
-
-  rl.on(`line`, (line) => {
-    if (Number.parseInt(line, 10) && Number.parseInt(line, 10) > 0) {
-      data = generateEntity(line);
-      rl.close();
+const getPath = () => rl.question(`Укажите путь к файлу: `, async (answer) => {
+  try {
+    await access(answer);
+    path = answer;
+    return rewriteFile();
+  } catch (e) {
+    if (e.code === `ENOENT`) {
+      path = answer;
+      return writeFile();
     } else {
-      setPrompt(rl, `Значение не корректное, попробуйде снова!`);
+      console.log(`Значение не корректное, попробуйде снова!`);
+      return getPath();
     }
-  }).on(`close`, () => {
-    setPrompt(rl, `Сгенерированные данные:\n${JSON.stringify(data)}`);
-    saveData();
-  });
-};
+  }
+});
 
-const run = () => {
-  const rl = createInterface();
-
-  setPrompt(rl, `Давайте сгенерируем тестовые данные?(y/n)`);
-
-  rl.on(`line`, (line) => {
-    switch (line.trim().toLowerCase()) {
-      case (`y`): {
-        rl.close();
-        break;
-      }
-      case (`n`): {
-        setPrompt(rl, `Спасибо за ответ, до свидания!`);
-        process.exit(0);
-        break;
-      }
-      default: {
-        console.log(`Неизвестная команда: ${line.trim()}`);
-        break;
-      }
+const rewriteFile = () => rl.question(`Файл уже существует, перезаписать?(y/n) `, (answer) => {
+  switch (answer.trim().toLowerCase()) {
+    case (`y`): {
+      return writeFile();
     }
-  }).on(`close`, () => {
-    generateEntities();
-  });
+    case (`n`): {
+      return getPath();
+    }
+    default: {
+      console.log(`Неизвестная команда: ${answer.trim()}`);
+      return rewriteFile();
+    }
+  }
+});
+
+const writeFile = async () => {
+  await generate.execute(path, data);
+  console.log(`Файл успешно сохранен!`);
+  process.exit(0);
 };
 
 module.exports = run;

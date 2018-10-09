@@ -6,7 +6,6 @@ const findCommandByName = (command) => findObjectInArray(commands, `name`, comma
 const APP_NAME = findCommandByName(`--name`).execute();
 const APP_VERSION = findCommandByName(`--version`).execute();
 const APP_HELP = findCommandByName(`--help`).execute();
-const startServer = () => findCommandByName(`--server`).execute();
 
 module.exports = {
   name: `CLI`,
@@ -16,10 +15,9 @@ module.exports = {
       console.log(`Добро пожаловать в приложение "${APP_NAME}" ${APP_VERSION}`);
       runGenerator();
     } else if (findCommandByName(command)) {
-      if (command === `--server`) {
-        startServer();
-      } else {
-        console.log(await findCommandByName(command).execute());
+      console.log(await findCommandByName(command).execute());
+
+      if (command !== `--server`) {
         process.exit(0);
       }
     } else {
