@@ -6,6 +6,7 @@ const findCommandByName = (command) => findObjectInArray(commands, `name`, comma
 const APP_NAME = findCommandByName(`--name`).execute();
 const APP_VERSION = findCommandByName(`--version`).execute();
 const APP_HELP = findCommandByName(`--help`).execute();
+const startServer = (port) => findCommandByName(`--server`).execute(port);
 
 module.exports = {
   name: `CLI`,
@@ -15,8 +16,12 @@ module.exports = {
       console.log(`Добро пожаловать в приложение "${APP_NAME}" ${APP_VERSION}`);
       runGenerator();
     } else if (findCommandByName(command)) {
-      console.log(await findCommandByName(command).execute());
-      process.exit(0);
+      if (command === `--server`) {
+        startServer();
+      } else {
+        console.log(await findCommandByName(command).execute());
+        process.exit(0);
+      }
     } else {
       console.error(`Неизвестная команда ${command}`);
       console.log(`Список доступных команд:\n${APP_HELP}`);
