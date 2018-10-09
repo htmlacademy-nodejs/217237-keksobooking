@@ -6,7 +6,7 @@ const findCommandByName = (command) => findObjectInArray(commands, `name`, comma
 const APP_NAME = findCommandByName(`--name`).execute();
 const APP_VERSION = findCommandByName(`--version`).execute();
 const APP_HELP = findCommandByName(`--help`).execute();
-const startServer = (port) => findCommandByName(`--server`).execute(port);
+const startServer = () => findCommandByName(`--server`).execute();
 
 module.exports = {
   name: `CLI`,
