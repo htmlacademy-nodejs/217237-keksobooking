@@ -16,27 +16,9 @@ const generateRandomArray = (array) => {
   return [...new Set(result)];
 };
 
-const getContentType = (ext) => {
-  switch (ext) {
-    case (`.css`):
-      return `text/css`;
-    case (`.html`):
-      return `text/html; charset=UTF-8`;
-    case (`.jpg`):
-      return `image/jpeg`;
-    case (`.png`):
-      return `image/png`;
-    case (`.ico`):
-      return `image/x-icon`;
-    default:
-      return `text/plain`;
-  }
-};
-
 module.exports = {
   coloring,
   findObjectInArray,
   getRandomInteger,
-  generateRandomArray,
-  getContentType
+  generateRandomArray
 };

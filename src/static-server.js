@@ -1,8 +1,8 @@
 const http = require(`http`);
 const fs = require(`fs`);
 const {extname} = require(`path`);
+const mime = require(`mime-types`);
 const {promisify} = require(`util`);
-const {getContentType} = require(`./utils`);
 
 const readfile = promisify(fs.readFile);
 
@@ -10,7 +10,7 @@ const readFile = async (path, res) => {
   const data = await readfile(path);
   const ext = extname(path);
 
-  res.setHeader(`content-type`, getContentType(ext));
+  res.setHeader(`content-type`, mime.lookup(ext));
   res.end(data);
 };
 
