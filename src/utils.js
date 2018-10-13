@@ -16,9 +16,12 @@ const generateRandomArray = (array) => {
   return [...new Set(result)];
 };
 
+const asyncWrapper = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
 module.exports = {
   coloring,
   findObjectInArray,
   getRandomInteger,
-  generateRandomArray
+  generateRandomArray,
+  asyncWrapper
 };

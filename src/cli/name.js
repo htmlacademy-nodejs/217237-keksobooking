@@ -4,7 +4,5 @@ const {coloring} = require(`../utils`);
 module.exports = {
   name: `--name`,
   description: `Shows program name`,
-  execute() {
-    return coloring(name, `green`);
-  }
+  execute: () => coloring(name, `green`)
 };

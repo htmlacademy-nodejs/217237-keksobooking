@@ -1,7 +1,7 @@
 const readline = require(`readline`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
-const {generateEntity} = require(`../generator`);
+const generateEntity = require(`../generator`);
 const generate = require(`./generate`);
 
 const access = promisify(fs.access);

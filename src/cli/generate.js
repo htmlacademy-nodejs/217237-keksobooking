@@ -1,7 +1,7 @@
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 const {getRandomInteger, coloring} = require(`../utils`);
-const {generateEntity} = require(`../generator`);
+const generateEntity = require(`../generator`);
 const write = promisify(fs.writeFile);
 
 const DEFAULT_PATH = `${process.cwd()}/src/mock/ads.mock.json`;

@@ -2,8 +2,8 @@ const assert = require(`assert`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 const generate = require(`../src/cli/generate`);
-const {generateEntity} = require(`../src/generator`);
-const Ad = require(`../src/models/ad`);
+const generateEntity = require(`../src/generator`);
+const Offer = require(`../src/models/offer`);
 const messages = require(`../src/mock/messages`);
 
 const access = promisify(fs.access);
@@ -111,5 +111,5 @@ describe(`Entity data`, () => {
 
   it(`should date correct`, () => assert.ok(Date.now() >= date));
 
-  it(`should model correct`, () => assert.notDeepEqual(testEntity, new Ad(data).entity));
+  it(`should model correct`, () => assert.notDeepEqual(testEntity, new Offer(data).entity));
 });

@@ -1,4 +1,4 @@
-class Ad {
+class Offer {
   constructor({avatar, title, x, y, price, type, rooms, guests, checkin, checkout, features, description, photos, date}) {
     this.avatar = avatar;
     this.title = title;
@@ -44,4 +44,4 @@ class Ad {
   }
 }
 
-module.exports = Ad;
+module.exports = Offer;

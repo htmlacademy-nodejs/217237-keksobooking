@@ -1,4 +1,4 @@
-const Ad = require(`./models/ad`);
+const Offer = require(`./models/offer`);
 const {getRandomInteger, generateRandomArray} = require(`../src/utils`);
 const {type, time, features, titles, photos} = require(`./mock/messages`);
 
@@ -19,14 +19,12 @@ const getParams = () => ({
   date: Date.now() - getRandomInteger(0, 604800000)
 });
 
-module.exports = {
-  generateEntity(length = 1) {
-    const arr = [];
+module.exports = (length = 1) => {
+  const arr = [];
 
-    for (let i = 0; i < length; i++) {
-      arr.push(new Ad(getParams()).entity);
-    }
-
-    return arr;
+  for (let i = 0; i < length; i++) {
+    arr.push(new Offer(getParams()).entity);
   }
+
+  return arr;
 };

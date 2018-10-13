@@ -1,36 +1,22 @@
-const http = require(`http`);
-const fs = require(`fs`);
-const {extname} = require(`path`);
-const mime = require(`mime-types`);
-const {promisify} = require(`util`);
+const express = require(`express`);
 
-const readfile = promisify(fs.readFile);
+const offers = require(`./routes/api/offers`);
 
-const readFile = async (path, res) => {
-  const data = await readfile(path);
-  const ext = extname(path);
+const app = express();
 
-  res.setHeader(`content-type`, mime.lookup(ext));
-  res.end(data);
-};
+app.use(express.static(`${process.cwd()}/static`));
 
-const server = http.createServer((req, res) => {
-  const absolutePath = `${process.cwd()}/static${req.url === `/` ? `/index.html` : req.url}`;
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
-  (async () => {
-    try {
-      await readFile(absolutePath, res);
+app.use(`/api/offers`, offers);
 
-      req.statusCode = 200;
-      req.statusMessage = `OK`;
-    } catch (e) {
-      res.writeHead(404, `Not Found`);
-      res.end();
-    }
-  })().catch((e) => {
-    res.writeHead(500, e.message, {'content-type': `text-plain`});
-    res.end(e.message);
-  });
+app.use((req, res) => res.status(404).send(`Not Found`));
+app.use((err, req, res, _next) => {
+  if (err) {
+    console.error(err);
+    res.status(err.code || 500).send(err.message);
+  }
 });
 
-module.exports = server;
+module.exports = app;

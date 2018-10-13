@@ -7,10 +7,12 @@ const description = require(`./description`);
 const generate = require(`./generate`);
 const server = require(`./server`);
 
-const commands = [{
-  name: `--help`,
-  description: `Shows program help`,
-  execute: () => commands.reduce((string, command) => `${string}${coloring(command.name)} - ${coloring(command.description, `green`)}\n`, `\n`)
-}, version, name, author, license, description, generate, server];
+const commands = [
+  {
+    name: `--help`,
+    description: `Shows program help`,
+    execute: () => commands.reduce((string, command) => `${string}${coloring(command.name)} - ${coloring(command.description, `green`)}\n`, `\n`)
+  }, version, name, author, license, description, generate, server
+];
 
 module.exports = commands;
