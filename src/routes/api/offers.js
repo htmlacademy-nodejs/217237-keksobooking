@@ -3,10 +3,19 @@ const router = require(`express`).Router();
 const generator = require(`../../generator`);
 const {IllegalArgumentError, NotFoundError} = require(`../../errors`);
 
+const SKIP_DEFAULT = 0;
+const LIMIT_DEFAULT = 20;
 const offers = generator(10);
 
 router.get(``, (req, res) => {
-  res.send(offers);
+  const {skip, limit} = req.query;
+
+  res.send({
+    skip: Number(skip) || SKIP_DEFAULT,
+    limit: Number(limit) || LIMIT_DEFAULT,
+    total: offers.length,
+    data: offers
+  });
 });
 
 router.get(`/:date`, (req, res) => {

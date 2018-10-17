@@ -4,25 +4,24 @@ const app = require(`../src/static-server`);
 
 describe(`GET /api/offers`, () => {
   it(`should get all offers`, async () => {
-    const {body} = await request(app)
+    const {body: {total}} = await request(app)
       .get(`/api/offers`)
       .set(`Accept`, `application/json`)
       .expect(200)
       .expect(`Content-Type`, /json/);
 
-    assert.equal(body.length, 10);
+    assert.equal(total, 10);
   });
 
   it(`should get all offers with / at the end`, async () => {
 
-    const response = await request(app)
+    const {body: {total}} = await request(app)
       .get(`/api/offers/`)
       .set(`Accept`, `application/json`)
       .expect(200)
       .expect(`Content-Type`, /json/);
 
-    const wizards = response.body;
-    assert.equal(wizards.length, 10);
+    assert.equal(total, 10);
   });
 
   it(`should get error from unknown resource`, async () => await request(app)
