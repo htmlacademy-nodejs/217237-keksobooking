@@ -1,4 +1,5 @@
 const express = require(`express`);
+const multer = require(`multer`);
 
 const offers = require(`./routes/api/offers`);
 
@@ -8,6 +9,7 @@ app.use(express.static(`${process.cwd()}/static`));
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(multer({storage: multer.memoryStorage()}).none());
 
 app.use(`/api/offers`, offers);
 

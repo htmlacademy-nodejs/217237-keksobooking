@@ -8,14 +8,12 @@ const LIMIT_DEFAULT = 20;
 const offers = generator(10);
 
 router.get(``, (req, res) => {
-  const {skip, limit} = req.query;
+  const skip = Number(req.query.skip) || SKIP_DEFAULT;
+  const limit = Number(req.query.limit) || LIMIT_DEFAULT;
 
-  res.send({
-    skip: Number(skip) || SKIP_DEFAULT,
-    limit: Number(limit) || LIMIT_DEFAULT,
-    total: offers.length,
-    data: offers
-  });
+  const data = offers.slice(skip).slice(0, limit);
+
+  res.send({skip, limit, total: data.length, data});
 });
 
 router.get(`/:date`, (req, res) => {
@@ -32,6 +30,18 @@ router.get(`/:date`, (req, res) => {
   }
 
   res.send(target);
+});
+
+router.post(``, (req, res) => {
+  const {body} = req;
+
+  if (!body.address) {
+    throw new IllegalArgumentError(`Не корректно переданы параметры`);
+  }
+
+  const [x, y] = body.address.split(`, `);
+
+  res.send(Object.assign(body, {location: {x, y}}));
 });
 
 module.exports = router;

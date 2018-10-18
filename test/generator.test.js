@@ -44,7 +44,7 @@ describe(`Entity generator`, () => {
       await generate.execute(tmpFile, data);
       const file = require(tmpFile);
 
-      assert.deepEqual(data, file);
+      assert.deepStrictEqual(data, file);
       await access(tmpFile);
       await unlink(tmpFile);
 
@@ -81,7 +81,7 @@ describe(`Entity data`, () => {
 
   it(`should title correct`, () => assert.ok(messages.titles.includes(offer.title)));
 
-  it(`should address correct`, () => assert.equal(offer.address, `${location.x} ${location.y}`));
+  it(`should address correct`, () => assert.strictEqual(offer.address, `${location.x} ${location.y}`));
 
   it(`should price correct`, () => assert.ok(offer.price >= 1000 && offer.price <= 1000000));
 
@@ -97,12 +97,12 @@ describe(`Entity data`, () => {
 
   it(`should features correct`, () => {
     assert.ok(offer.features.length <= messages.features.length);
-    assert.deepEqual([...new Set(offer.features)], offer.features);
+    assert.deepStrictEqual([...new Set(offer.features)], offer.features);
   });
 
-  it(`should description correct`, () => assert.equal(``, offer.description));
+  it(`should description correct`, () => assert.strictEqual(``, offer.description));
 
-  it(`should photos correct`, () => assert.equal(messages.photos.length, offer.photos.length));
+  it(`should photos correct`, () => assert.strictEqual(messages.photos.length, offer.photos.length));
 
   it(`should location correct`, () => {
     assert.ok(location.x >= 300 && location.x <= 900);
@@ -111,5 +111,5 @@ describe(`Entity data`, () => {
 
   it(`should date correct`, () => assert.ok(Date.now() >= date));
 
-  it(`should model correct`, () => assert.notDeepEqual(testEntity, new Offer(data).entity));
+  it(`should model correct`, () => assert.notDeepStrictEqual(testEntity, new Offer(data).entity));
 });
