@@ -23,15 +23,6 @@ describe(`GET /api/offers`, () => {
     assert.strictEqual(total, 10);
   });
 
-  it(`should get error with invalid params`, async () => {
-    return await request(app)
-      .get(`/api/offers/?skip=test`)
-      .set(`Accept`, `application/json`)
-      .expect(400)
-      .expect(`Не корректно переданы параметры`)
-      .expect(`Content-Type`, /html/);
-  });
-
   it(`should get error from unknown resource`, async () => await request(app)
     .get(`/api/test/request`)
     .set(`Accept`, `application/json`)
