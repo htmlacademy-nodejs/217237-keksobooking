@@ -2,6 +2,7 @@
 const router = require(`express`).Router();
 const generator = require(`../../generator`);
 const {IllegalArgumentError, NotFoundError} = require(`../../errors`);
+const validate = require(`../validation`);
 
 const SKIP_DEFAULT = 0;
 const LIMIT_DEFAULT = 20;
@@ -33,15 +34,7 @@ router.get(`/:date`, (req, res) => {
 });
 
 router.post(``, (req, res) => {
-  const {body} = req;
-
-  if (!body.address) {
-    throw new IllegalArgumentError(`Не корректно переданы параметры`);
-  }
-
-  const [x, y] = body.address.split(`, `);
-
-  res.send(Object.assign(body, {location: {x, y}}));
+  res.send(validate(req.body));
 });
 
 module.exports = router;

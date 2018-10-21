@@ -1,6 +1,6 @@
 class Offer {
   constructor(props) {
-    this.props = Object.assign(props, {address: `${props.x} ${props.y}`});
+    this.props = {...props, address: `${props.x} ${props.y}`};
   }
 
   get entity() {
