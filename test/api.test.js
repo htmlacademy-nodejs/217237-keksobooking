@@ -1,6 +1,7 @@
 const request = require(`supertest`);
 const assert = require(`assert`);
 const app = require(`../src/static-server`);
+const {names} = require(`../src/mock/messages`);
 
 describe(`GET /api/offers`, () => {
   it(`should get all offers from default props`, async () => {
@@ -54,20 +55,31 @@ describe(`GET /api/offers/:date`, () => {
   );
 });
 
-// describe(`POST /api/offers`, () => {
-//   it(`should return json for multipart/form-data request`, async () => {
-//     const address = `100, 200`;
-//     const [x, y] = address.split(`, `);
-//
-//     const {body} = await request(app)
-//       .post(`/api/offers`)
-//       .field(`address`, address)
-//       .set(`Accept`, `application/json`)
-//       .set(`Content-Type`, `multipart/form-data`)
-//       .expect(200)
-//       .expect(`Content-Type`, /json/);
-//
-//     assert.strictEqual(body.address, address);
-//     assert.deepEqual(body.location, {x, y});
-//   });
-// });
+describe(`POST /api/offers`, () => {
+  it(`should return correct answer`, async () => {
+    const testData = {
+      title: `Маленькая квартирка рядом с парком`,
+      address: `570, 472`,
+      description: `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`,
+      price: 30000,
+      type: `flat`,
+      rooms: 1,
+      guests: 1,
+      checkin: `9:00`,
+      checkout: `7:00`,
+      features: [`elevator`, `conditioner`]
+    };
+    const [x, y] = testData.address.split(`, `);
+
+    const {body} = await request(app)
+      .post(`/api/offers`)
+      .send(testData)
+      .set(`Accept`, `application/json`)
+      .expect(200)
+      .expect(`Content-Type`, /json/);
+
+    assert.ok(names.find((name) => name === body.name));
+    assert.strictEqual(body.address, testData.address);
+    assert.deepStrictEqual(body.location, {x, y});
+  });
+});
