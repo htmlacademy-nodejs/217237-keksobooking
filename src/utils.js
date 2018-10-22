@@ -1,4 +1,5 @@
 const colors = require(`colors`);
+const IllegalArgumentError = require(`./errors`).IllegalArgumentError;
 
 const coloring = (string, color = `grey`) => colors[color](string);
 
@@ -18,10 +19,27 @@ const generateRandomArray = (array) => {
 
 const asyncWrapper = (fn) => (req, res, next) => fn(req, res, next).catch(next);
 
+const checkProperty = (arr, prop, defaultValue) => {
+  let result;
+
+  if (arr.hasOwnProperty(prop)) {
+    if (Number(arr[prop]) || Number(arr[prop]) === 0) {
+      result = arr[prop];
+    } else {
+      throw new IllegalArgumentError(`Не корректно переданы параметры`);
+    }
+  } else {
+    result = defaultValue;
+  }
+
+  return result;
+};
+
 module.exports = {
   coloring,
   findObjectInArray,
   getRandomInteger,
   generateRandomArray,
-  asyncWrapper
+  asyncWrapper,
+  checkProperty
 };
